@@ -256,7 +256,7 @@ pub async fn write_tar(
     if !status.success() {
         println!("JMC status ({})", status);
         return Err(anyhow!(
-            "JMC Failed to commit tar: {:?}: {}",
+            "JMCs Failed to commit tar: {:?}: {}",
             status,
             child_stderr
         ));
