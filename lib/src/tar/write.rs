@@ -254,7 +254,7 @@ pub async fn write_tar(
     //dbg!(sepolicy);
     drop(sepolicy);
     if !status.success() {
-        dbg!(status);
+        println!("JMC status ({})", status);
         return Err(anyhow!(
             "JMC Failed to commit tar: {:?}: {}",
             status,
