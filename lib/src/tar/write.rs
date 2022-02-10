@@ -251,12 +251,12 @@ pub async fn write_tar(
         tokio::try_join!(filtered_result, output_copier)?;
     let status = r.wait().await?;
     // Ensure this lasted until the process exited
-    dbg!(sepolicy);
-    //drop(sepolicy);
+    //dbg!(sepolicy);
+    drop(sepolicy);
     if !status.success() {
         dbg!(status);
         return Err(anyhow!(
-            "Failed to commit tar: {:?}: {}",
+            "JMC Failed to commit tar: {:?}: {}",
             status,
             child_stderr
         ));
