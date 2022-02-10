@@ -242,11 +242,11 @@ pub async fn write_tar(
             child_stdout.read_to_string(&mut child_stdout_buf),
             child_stderr.read_to_string(&mut child_stderr_buf)
         )?;
-        println!("JMC child_stdout_buf ({})", child_stdout_buf);
-        println!("JMC child_stderr_buf ({})", child_stderr_buf);
+
         Ok::<_, anyhow::Error>((child_stdout_buf, child_stderr_buf))
     };
 
+    println!("JMC child_stderr_buf ()");
     let (filtered_result, (child_stdout, child_stderr)) =
         tokio::try_join!(filtered_result, output_copier)?;
     let status = r.wait().await?;
