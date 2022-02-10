@@ -197,6 +197,7 @@ pub async fn write_tar(
     } else {
         None
     };
+    // call ostree
     let mut c = std::process::Command::new("ostree");
     let repofd = repo.dfd_as_file()?;
     let repofd = Arc::new(rustix::io::OwnedFd::from_into_fd(repofd));
@@ -241,6 +242,8 @@ pub async fn write_tar(
             child_stdout.read_to_string(&mut child_stdout_buf),
             child_stderr.read_to_string(&mut child_stderr_buf)
         )?;
+        println!("JMC child_stdout_buf ({})", child_stdout_buf);
+        println!("JMC child_stderr_buf ({})", child_stderr_buf);
         Ok::<_, anyhow::Error>((child_stdout_buf, child_stderr_buf))
     };
 
@@ -248,8 +251,10 @@ pub async fn write_tar(
         tokio::try_join!(filtered_result, output_copier)?;
     let status = r.wait().await?;
     // Ensure this lasted until the process exited
-    drop(sepolicy);
+    dbg!(sepolicy);
+    //drop(sepolicy);
     if !status.success() {
+        dbg!(status);
         return Err(anyhow!(
             "Failed to commit tar: {:?}: {}",
             status,
